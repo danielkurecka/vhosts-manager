@@ -1,0 +1,4 @@
+/tests/tmp/
+/tests/cases/output/
+/vendor/
+/composer.lock
