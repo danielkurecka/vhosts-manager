@@ -13,9 +13,14 @@ class Application extends ConsoleApplication
 
 	const LOCAL_IP = '127.0.0.1';
 
-	public function __construct()
+	/** @var Config */
+	private $config;
+
+
+	public function __construct(Config $config)
 	{
 		parent::__construct('Vhosts Manager', 'dev');
+		$this->config = $config;
 
 		$this->register('add')
 			->setDescription('Add new virtual host')
@@ -89,14 +94,14 @@ class Application extends ConsoleApplication
 	/** @return HostsFile */
 	private function createHostsFile()
 	{
-		return new HostsFile('/etc/hosts');
+		return new HostsFile($this->config->hostsFile);
 	}
 
 
 	private function reload(OutputInterface $output)
 	{
 		$output->writeln("Reloading apache configuration");
-		exec('service apache2 reload 2>&1', $outputLines, $code);
+		exec($this->config->reloadCommand, $reloadOutput, $code);
 
 		if ($code !== 0) {
 			$output->writeln("Reload command finished with exit code $code");
@@ -106,13 +111,13 @@ class Application extends ConsoleApplication
 
 	private function getConfFileName($site)
 	{
-		return "/etc/apache2/sites-available/$site.conf";
+		return $this->config->availableDir . "/$site.conf";
 	}
 
 
 	private function getConfLinkName($site)
 	{
-		return "/etc/apache2/sites-enabled/$site.conf";
+		return $this->config->enabledDir . "/$site.conf";
 	}
 
 

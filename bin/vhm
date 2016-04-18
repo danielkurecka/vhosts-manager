@@ -3,5 +3,11 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = new VhostsManager\Application;
+try {
+	$config = new VhostsManager\Config(__DIR__ . '/../config.ini');
+} catch (\Exception $e) {
+	exit($e->getMessage());
+}
+
+$app = new VhostsManager\Application($config);
 $app->run();
