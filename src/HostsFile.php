@@ -124,18 +124,22 @@ class HostsFile
 
 
 	/**
-	 * Converts parsed hosts into a string. A reverse function to self::encode().
+	 * Converts parsed hosts into a string.
 	 * @param array
 	 * @return string
 	 */
 	public static function encode(array $lines)
 	{
+		if (!$lines) {
+			return '';
+		}
+
 		$output = '';
 		foreach ($lines as $line) {
 			$output .= trim($line[0] . ' ' . implode(' ', array_keys($line[1])) . ' ' . $line[2]) . "\n";
 		}
 
-		return $output ? substr($output, 0, -1) : $output;
+		return trim($output) . "\n";
 	}
 
 }

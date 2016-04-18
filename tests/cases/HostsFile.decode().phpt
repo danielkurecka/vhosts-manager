@@ -20,14 +20,12 @@ Assert::same([
 ], HostsFile::decode('127.0.0.1 foo bar baz # foo'));
 
 Assert::same([
-	['', [], ''],
 	['', [], '# foo'],
 	['127.0.0.1', ['example.com' => 1], '# bar'],
 	['', [], ''],
 	['127.0.0.2', ['example.net' => 1, 'example.org' => 1], ''],
 	['', [], ''],
-], HostsFile::decode('
-# foo
+], HostsFile::decode('# foo
 127.0.0.1 example.com # bar
 
 127.0.0.2 example.net example.org
