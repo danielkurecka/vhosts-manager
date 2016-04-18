@@ -10,7 +10,7 @@ class Config
 	public $hostsFile;
 	public $reloadCommand;
 
-	
+
 	public function __construct($fileName)
 	{
 		$content = Helpers::fileGetContents($fileName);

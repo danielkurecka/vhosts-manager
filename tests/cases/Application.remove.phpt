@@ -6,7 +6,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Tester\Assert;
 use VhostsManager\Application;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 $config = createConfig();

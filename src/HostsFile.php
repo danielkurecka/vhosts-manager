@@ -64,7 +64,7 @@ class HostsFile
 
 	public function save($path = NULL)
 	{
-		Helpers::filePutContents($path ?: $this->path, (string) $this);
+		Helpers::filePutContents($path ?: $this->path, (string)$this);
 		return $this;
 	}
 
@@ -113,7 +113,7 @@ class HostsFile
 			}
 
 			$parts = preg_split('~[\t ]+~', trim($line));
-			$ip = (string) array_shift($parts);
+			$ip = (string)array_shift($parts);
 			$hosts = array_fill_keys($parts, 1);
 
 			$lines[] = [$ip, $hosts, $comment];

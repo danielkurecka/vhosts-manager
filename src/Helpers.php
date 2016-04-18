@@ -2,7 +2,6 @@
 
 namespace VhostsManager;
 
-
 class Helpers
 {
 
@@ -41,7 +40,7 @@ class Helpers
 	public static function invokeSafe(\Closure $function)
 	{
 		$error = '';
-		set_error_handler(function($severity, $message) use (&$error) {
+		set_error_handler(function ($severity, $message) use (&$error) {
 			$error = $message;
 		});
 

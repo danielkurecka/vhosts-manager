@@ -9,7 +9,7 @@
 
 	"autoload": {
 		"psr-4": {
-            "VhostsManager\\": ["src/"]
-        }
+			"VhostsManager\\": ["src/"]
+		}
 	}
 }
