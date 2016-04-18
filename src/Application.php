@@ -104,7 +104,8 @@ class Application extends ConsoleApplication
 		exec($this->config->reloadCommand, $reloadOutput, $code);
 
 		if ($code !== 0) {
-			$output->writeln("Reload command finished with exit code $code");
+			$output->writeln("Reload command finished with exit code $code and outputed:");
+			$output->writeln(implode("\n", $reloadOutput));
 		}
 	}
 
