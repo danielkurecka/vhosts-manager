@@ -60,6 +60,7 @@ class Application extends ConsoleApplication
 		}
 
 		$this->reload($output);
+		$output->writeln("Site url: http://$site");
 	}
 
 
