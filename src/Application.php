@@ -36,55 +36,56 @@ class Application extends ConsoleApplication
 
 	public function commandAdd(InputInterface $input, OutputInterface $output)
 	{
-		$site = $input->getArgument('host-name');
+		$host = $input->getArgument('host-name');
 		$docRoot = $input->getArgument('document-root');
 
-		if (is_file($this->getConfFileName($site))) {
-			throw new \Exception("Site already exists: " . $this->getConfFileName($site));
+		if (is_file($this->getConfFileName($host))) {
+			throw new \Exception("Virtual host already exists: " . $this->getConfFileName($host));
 		}
 
 		if (!$realPath = realpath($docRoot)) {
 			throw new \Exception("Document root '$docRoot' does not exists.");
 		}
 
-		$output->writeln("Creating " . $this->getConfFileName($site));
-		Helpers::filePutContents($this->getConfFileName($site), $this->getTemplateData($site, $realPath));
+		$output->writeln("Creating " . $this->getConfFileName($host));
+		Helpers::filePutContents($this->getConfFileName($host), $this->getTemplateData($host, $realPath));
 
-		$output->writeln("Creating symlink " . $this->getConfLinkName($site));
-		Helpers::symlink($this->getConfFileName($site), $this->getConfLinkName($site));
+		$output->writeln("Creating symlink " . $this->getConfLinkName($host));
+		Helpers::symlink($this->getConfFileName($host), $this->getConfLinkName($host));
+
 		$hostsFile = $this->createHostsFile();
 
-		if (!$hostsFile->has(self::LOCAL_IP, $site)) {
-			$output->writeln("Adding $site to {$hostsFile->getPath()}");
-			$hostsFile->add(self::LOCAL_IP, $site)->save();
+		if (!$hostsFile->has(self::LOCAL_IP, $host)) {
+			$output->writeln("Adding $host to {$hostsFile->getPath()}");
+			$hostsFile->add(self::LOCAL_IP, $host)->save();
 		}
 
 		$this->reload($output);
-		$output->writeln("Site url: http://$site");
+		$output->writeln("Virtual host url: http://$host");
 	}
 
 
 	public function commandRemove(InputInterface $input, OutputInterface $output)
 	{
-		$site = $input->getArgument('host-name');
+		$host = $input->getArgument('host-name');
 
-		if (!is_file($this->getConfFileName($site))) {
-			throw new \Exception("Site does not exists: " . $this->getConfFileName($site));
+		if (!is_file($this->getConfFileName($host))) {
+			throw new \Exception("Virtual host does not exists: " . $this->getConfFileName($host));
 		}
 
-		if (is_file($this->getConfLinkName($site)) || is_link($this->getConfLinkName($site))) {
-			$output->writeln("Removing " . $this->getConfLinkName($site));
-			Helpers::unlink($this->getConfLinkName($site));
+		if (is_file($this->getConfLinkName($host)) || is_link($this->getConfLinkName($host))) {
+			$output->writeln("Removing " . $this->getConfLinkName($host));
+			Helpers::unlink($this->getConfLinkName($host));
 		}
 
-		$output->writeln("Removing " . $this->getConfFileName($site));
-		Helpers::unlink($this->getConfFileName($site));
+		$output->writeln("Removing " . $this->getConfFileName($host));
+		Helpers::unlink($this->getConfFileName($host));
 
 		$hostsFile = $this->createHostsFile();
 
-		if ($hostsFile->has(self::LOCAL_IP, $site)) {
-			$output->writeln("Removing $site from {$hostsFile->getPath()}");
-			$hostsFile->remove(self::LOCAL_IP, $site)->save();
+		if ($hostsFile->has(self::LOCAL_IP, $host)) {
+			$output->writeln("Removing $host from {$hostsFile->getPath()}");
+			$hostsFile->remove(self::LOCAL_IP, $host)->save();
 		}
 
 		$this->reload($output);
@@ -110,23 +111,23 @@ class Application extends ConsoleApplication
 	}
 
 
-	private function getConfFileName($site)
+	private function getConfFileName($host)
 	{
-		return $this->config->availableDir . "/$site.conf";
+		return $this->config->availableDir . "/$host.conf";
 	}
 
 
-	private function getConfLinkName($site)
+	private function getConfLinkName($host)
 	{
-		return $this->config->enabledDir . "/$site.conf";
+		return $this->config->enabledDir . "/$host.conf";
 	}
 
 
-	private function getTemplateData($site, $documentRoot)
+	private function getTemplateData($host, $documentRoot)
 	{
 		$templateFile = __DIR__ . '/../config/template.conf.php';
 		if (!is_file($templateFile)) {
-			throw new \Exception("Site template '$templateFile' does not exits.");
+			throw new \Exception("Virtual host template '$templateFile' does not exits.");
 		}
 
 		ob_start();

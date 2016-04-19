@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-	ServerName "<?= $site; ?>"
+	ServerName "<?= $host; ?>"
 	DocumentRoot "<?= $documentRoot; ?>"
 
 	<Directory "<?= $documentRoot; ?>">

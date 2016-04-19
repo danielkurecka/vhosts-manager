@@ -17,4 +17,4 @@ Assert::exception(function () use ($commandTester, $command) {
 		'command' => $command->getName(),
 		'host-name' => 'foo.local',
 	]);
-}, 'Exception', "Site does not exists: $config->availableDir/foo.local.conf");
+}, 'Exception', "Virtual host does not exists: $config->availableDir/foo.local.conf");

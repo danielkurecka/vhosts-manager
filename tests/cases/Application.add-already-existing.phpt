@@ -23,4 +23,4 @@ Assert::exception(function () use ($commandTester, $command) {
 		'host-name' => 'foo.local',
 		'document-root' => TEMP_DIR,
 	]);
-}, 'Exception', "Site already exists: $config->availableDir/foo.local.conf");
+}, 'Exception', "Virtual host already exists: $config->availableDir/foo.local.conf");

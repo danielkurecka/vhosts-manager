@@ -43,7 +43,7 @@ Creating $config->availableDir/foo.local.conf
 Creating symlink $config->enabledDir/foo.local.conf
 Adding foo.local to $config->hostsFile
 Reloading apache configuration
-Site url: http://foo.local
+Virtual host url: http://foo.local
 
 EOT
 	, $commandTester->getDisplay());
