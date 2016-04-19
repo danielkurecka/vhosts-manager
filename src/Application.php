@@ -122,21 +122,16 @@ class Application extends ConsoleApplication
 	}
 
 
-	private function getTemplateData($site, $docRoot)
+	private function getTemplateData($site, $documentRoot)
 	{
-		return <<<"EOT"
-<VirtualHost *:80>
-	ServerName "$site"
-	DocumentRoot "$docRoot"
+		$templateFile = __DIR__ . '/../template.conf.php';
+		if (!is_file($templateFile)) {
+			throw new \Exception("Site template '$templateFile' does not exits.");
+		}
 
-	<Directory "$docRoot">
-		Options Indexes FollowSymLinks
-		AllowOverride All
-		Require all granted
-	</Directory>
-</VirtualHost>
-EOT;
-
+		ob_start();
+		require $templateFile;
+		return ob_get_clean();
 	}
 
 }

@@ -23,6 +23,18 @@ Assert::same(
 	readlink($config->enabledDir . '/foo.local.conf'),
 	$config->availableDir . '/foo.local.conf'
 );
+Assert::matchFile($config->availableDir . '/foo.local.conf', '<VirtualHost *:80>
+	ServerName "foo.local"
+	DocumentRoot "' . TEMP_DIR . '"
+
+	<Directory "' . TEMP_DIR . '">
+		Options Indexes FollowSymLinks
+		AllowOverride All
+		Require all granted
+	</Directory>
+</VirtualHost>
+'
+);
 
 Assert::matchFile($config->hostsFile, $app::LOCAL_IP . ' foo.local');
 
