@@ -4,7 +4,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 try {
-	$config = new VhostsManager\Config(__DIR__ . '/../config.ini');
+	$config = new VhostsManager\Config(__DIR__ . '/../config/config.ini');
 } catch (\Exception $e) {
 	exit($e->getMessage());
 }

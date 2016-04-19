@@ -124,7 +124,7 @@ class Application extends ConsoleApplication
 
 	private function getTemplateData($site, $documentRoot)
 	{
-		$templateFile = __DIR__ . '/../template.conf.php';
+		$templateFile = __DIR__ . '/../config/template.conf.php';
 		if (!is_file($templateFile)) {
 			throw new \Exception("Site template '$templateFile' does not exits.");
 		}
